@@ -1,0 +1,13 @@
+version: '3'
+services:
+  gitlab-runner:
+    image: gitlab-runner:latest
+    restart: always
+    volumes:
+      - ./gitlab-runner:/etc/gitlab-runner
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "5"

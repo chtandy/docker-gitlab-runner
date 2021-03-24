@@ -1,0 +1,18 @@
+version: '3'
+services:
+  gitlab-runner-init:
+    image: gitlab-runner:latest
+    command: ["register",
+              "--non-interactive",
+              "--url", "https://gitlab.com/",
+              "--registration-token", "yJKxq1yHVHXe3US_o4fs",
+              "--executor", "docker",
+              "--docker-image", "alpine:latest",
+              "--description", "docker-runner",
+              "--tag-list", "kubernetes",
+              "--run-untagged","true",
+              "--locked", "false",
+              "--access-level", "not_protected"]
+    restart: "no"
+    volumes:
+      - ./gitlab-runner:/etc/gitlab-runner
