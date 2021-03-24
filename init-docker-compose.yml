@@ -1,7 +1,7 @@
 version: '3'
 services:
   gitlab-runner-init:
-    image: gitlab-runner:latest
+    image: gitlab/gitlab-runner:latest
     command: ["register",
               "--non-interactive",
               "--url", "https://gitlab.com/",
