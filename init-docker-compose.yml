@@ -16,20 +16,11 @@ services:
     restart: "no"
     volumes:
       - ./gitlab-runner:/etc/gitlab-runner
-  modify-runner-config-1:
+  modify-runner-config:
     image: busybox:latest
-    command: sed -i  -e 's|    volumes =.*|    volumes = ["/cache", "/var/run/docker.sock:/run/docker.sock"]|g' -e '/^    volumes/a\    network_mode = "host"' /etc/gitlab-runner/config.toml
+    command: sed -i -e 's|    volumes =.*|    volumes = ["/cache", "/var/run/docker.sock:/run/docker.sock"]|g' -e '/^    volumes/a\    network_mode = "host"' /etc/gitlab-runner/config.toml
     depends_on:
     - gitlab-runner-init
     restart: "no"
     volumes:
       - ./gitlab-runner:/etc/gitlab-runner
-#  modify-runner-config-2:
-#    image: busybox:latest
-#    command: sed -i '/^    volumes/a\    network_mode = "host"' /etc/gitlab-runner/config.toml
-#    depends_on:
-#    - gitlab-runner-init
-#    - modify-runner-config-1
-#    restart: "no"
-#    volumes:
-#      - ./gitlab-runner:/etc/gitlab-runner
