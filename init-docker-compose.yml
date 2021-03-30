@@ -9,14 +9,14 @@ services:
               "--executor", "docker",
               "--docker-image", "alpine:latest",
               "--description", "docker-runner",
-              "--tag-list", "kubernetes",
+              "--tag-list", "beta-kubernetes",
               "--run-untagged","true",
               "--locked", "false",
               "--access-level", "not_protected"]
     restart: "no"
     volumes:
       - ./gitlab-runner:/etc/gitlab-runner
-  modify-runner-config:
+  modify-runner-config-1:
     image: busybox:latest
     command: sed -i -e 's|    volumes =.*|    volumes = ["/cache", "/var/run/docker.sock:/run/docker.sock"]|g' -e '/^    volumes/a\    network_mode = "host"' /etc/gitlab-runner/config.toml
     depends_on:
