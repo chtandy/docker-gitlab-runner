@@ -1,0 +1,33 @@
+stages:
+  - docker_build
+  - jenkins_build
+  
+docker-build:
+  image: docker:latest
+  stage: docker_build
+  tags:
+    - beta-kubernetes
+  before_script:
+    - ls -al
+    - echo $NEXUS_PWD | docker login --username=$NEXUS_ACC nexus-beta.gamesoft-tech.com --password-stdin
+  script:
+    - docker build -t nexus-beta.gamesoft-tech.com/jenkins-agent:latest .
+    #- docker push nexus-beta.gamesoft-tech.com/jenkins-agent:latest
+
+jenkins-build:
+  image: ubuntu:18.04
+  stage: jenkins_build
+  tags:
+    - beta-kubernetes
+  script:
+    - |
+      echo "172.16.91.100   k8s-beta.gamesoft-tech.com" >> /etc/hosts
+      apt-get update && apt install -y curl
+      mkdir ${HOME}/.kube && echo "$K8SBETA" | base64 --decode > ${HOME}/.kube/config
+      export KUBECONFIG=${HOME}/.kube/config
+      curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+      chmod +x kubectl && mv kubectl /usr/bin/kubectl
+      ls -al ${HOME}/.kube/config
+      kubectl get pods
+      
+    #- curl https://admin:115f5c8dbcd4b92204af8adc26c046561e@lcs-beta.gamesoft-tech.com/view/99-btea-k8s-job/job/pagi-test/build?token=1234567890
