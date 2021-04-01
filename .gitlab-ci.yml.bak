@@ -32,4 +32,4 @@ jenkins-build:
       ls -al ${HOME}/.kube/config
       kubectl get pods
       
-    #- curl https://admin:115f5c8dbcd4b92204af8adc26c046561e@lcs-beta.gamesoft-tech.com/view/99-btea-k8s-job/job/pagi-test/build?token=1234567890
+    #- curl https://${USER}:${TOKEN}@lcs-beta.gamesoft-tech.com/view/99-btea-k8s-job/job/pagi-test/build?token=${JOB_TOKEN}
