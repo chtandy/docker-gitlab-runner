@@ -1,5 +1,5 @@
 # 將 k8s credantial 放在gitlab ver變數，用base64 編碼 
-cat ~/.kube/config | base64 -w 0
+# cat ~/.kube/config | base64 -w 0
 stages:
   - docker_build
   - jenkins_build
