@@ -5,11 +5,11 @@ services:
     command: ["register",
               "--non-interactive",
               "--url", "https://gitlab.com/",
-              "--registration-token", "yJKxq1yHVHXe3US_o4fs",
+              "--registration-token", "YCze5-cHfDUbiCTDvdmN",
               "--executor", "docker",
               "--docker-image", "alpine:latest",
               "--description", "docker-runner",
-              "--tag-list", "beta-kubernetes",
+              "--tag-list", "andyhuang-lab",
               "--run-untagged","true",
               "--locked", "false",
               "--access-level", "not_protected"]
@@ -17,18 +17,19 @@ services:
     volumes:
       - ./gitlab-runner:/etc/gitlab-runner
 
-#  modify-runner-sleep:
-#    image: busybox:latest
-#    command: sleep 5
-#    depends_on:
-#    - gitlab-runner-init
+  sleep:
+    image: busybox:latest
+    command: sleep 10
+    restart: "no"
+    depends_on:
+    - gitlab-runner-init
 
   setting-runner-config:
     image: busybox:latest
-    command: sleep 10 && sed -i -e 's|    volumes =.*|    volumes = ["/cache", "/var/run/docker.sock:/run/docker.sock"]|g' -e '/^    volumes/a\    network_mode = "host"' /etc/gitlab-runner/config.toml
+    command: sed -i -e 's|    volumes =.*|    volumes = ["/cache", "/var/run/docker.sock:/run/docker.sock"]|g' -e '/^    volumes/a\    network_mode = "host"' /etc/gitlab-runner/config.toml
     depends_on:
     - gitlab-runner-init
-#    - modify-runner-sleep
+    - sleep
     restart: "no"
     volumes:
       - ./gitlab-runner:/etc/gitlab-runner
