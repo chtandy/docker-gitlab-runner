@@ -23,9 +23,9 @@ services:
 #    depends_on:
 #    - gitlab-runner-init
 
-  modify-runner-config-1:
+  setting-runner-config:
     image: busybox:latest
-    command: sleep 5 && sed -i -e 's|    volumes =.*|    volumes = ["/cache", "/var/run/docker.sock:/run/docker.sock"]|g' -e '/^    volumes/a\    network_mode = "host"' /etc/gitlab-runner/config.toml
+    command: sleep 10 && sed -i -e 's|    volumes =.*|    volumes = ["/cache", "/var/run/docker.sock:/run/docker.sock"]|g' -e '/^    volumes/a\    network_mode = "host"' /etc/gitlab-runner/config.toml
     depends_on:
     - gitlab-runner-init
 #    - modify-runner-sleep
