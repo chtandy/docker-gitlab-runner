@@ -1,3 +1,10 @@
+# 注意，新的runner 需修改以下幾個參數值
+# --registration-token
+# --executor
+# --docker-image
+# --description
+# --tag-list
+# executor參數: ssh, docker+machine, docker-ssh+machine, kubernetes, docker, parallels, virtualbox, docker-ssh, shell
 version: '3'
 services:
   gitlab-runner-init:
@@ -8,8 +15,8 @@ services:
               "--registration-token", "YCze5-cHfDUbiCTDvdmN",
               "--executor", "docker",
               "--docker-image", "alpine:latest",
-              "--description", "docker-runner",
-              "--tag-list", "andyhuang-lab",
+              "--description", "docker-runner-lab",
+              "--tag-list", "andyhuang-lab,beta-lab,docker,aws",
               "--run-untagged","true",
               "--locked", "false",
               "--access-level", "not_protected"]
@@ -18,14 +25,14 @@ services:
       - ./gitlab-runner:/etc/gitlab-runner
 
   sleep:
-    image: busybox:1.31.1
+    image: busybox:latest
     command: sleep 10
     restart: "no"
     depends_on:
     - gitlab-runner-init
 
   setting-runner-config:
-    image: busybox:1.31.1
+    image: busybox:latest
     command: sed -i -e 's|    volumes =.*|    volumes = ["/cache", "/var/run/docker.sock:/run/docker.sock"]|g' -e '/^    volumes/a\    network_mode = "host"' /etc/gitlab-runner/config.toml
     depends_on:
     - gitlab-runner-init
