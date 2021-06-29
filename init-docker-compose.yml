@@ -8,7 +8,7 @@
 version: '3'
 services:
   gitlab-runner-init:
-    image: gitlab/gitlab-runner:latest
+    image: gitlab/gitlab-runner:alpine-v14.0.0
     command: ["register",
               "--non-interactive",
               "--url", "https://gitlab.com/",
