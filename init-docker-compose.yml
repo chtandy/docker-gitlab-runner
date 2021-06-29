@@ -17,30 +17,29 @@ services:
               "--docker-image", "docker:stable",
               "--description", "docker-runner-lab",
               "--tag-list", "andyhuang-lab,beta-lab,docker,aws",
-              "--run-untagged","true",
-              "--locked", "false",
-              "--access-level", "not_protected"]
+              "--docker-privileged",
+              "--docker-volumes", "/certs/client"]
     restart: "no"
     volumes:
       - ./gitlab-runner:/etc/gitlab-runner
 
-  sleep-wait-to-setting:
-    image: busybox:latest
-    command: sleep 10
-    restart: "no"
-    depends_on:
-    - gitlab-runner-init
+  #sleep-wait-to-setting:
+  #  image: busybox:latest
+  #  command: sleep 10
+  #  restart: "no"
+  #  depends_on:
+  #  - gitlab-runner-init
 
-  setting-runner-config:
-    image: busybox:latest
-    entrypoint: ["/bin/sh", "-c"]
-    command: |
-      - "sed -i -e 's|    privileged =.*|    privileged = true|g' /etc/gitlab-runner/config.toml &&
-         sed -i -e 's|    volumes =.*|    volumes = ["/cache", "/var/run/docker.sock:/run/docker.sock"]|g' /etc/gitlab-runner/config.toml &&
-         sed -i -e '/^    volumes/a\    network_mode = "host"' /etc/gitlab-runner/config.toml"
-    depends_on:
-    - gitlab-runner-init
-    - sleep-wait-to-setting
-    restart: "no"
-    volumes:
-      - ./gitlab-runner:/etc/gitlab-runner
+  #setting-runner-config:
+  #  image: busybox:latest
+  #  entrypoint: ["/bin/sh", "-c"]
+  #  command: |
+  #    - "sed -i -e 's|    privileged =.*|    privileged = true|g' /etc/gitlab-runner/config.toml &&
+  #       sed -i -e 's|    volumes =.*|    volumes = ["/cache", "/var/run/docker.sock:/run/docker.sock"]|g' /etc/gitlab-runner/config.toml &&
+  #       sed -i -e '/^    volumes/a\    network_mode = "host"' /etc/gitlab-runner/config.toml"
+  #  depends_on:
+  #  - gitlab-runner-init
+  #  - sleep-wait-to-setting
+  #  restart: "no"
+  #  volumes:
+  #    - ./gitlab-runner:/etc/gitlab-runner
