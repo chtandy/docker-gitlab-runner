@@ -12,7 +12,7 @@ services:
     command: ["register",
               "--non-interactive",
               "--url", "https://gitlab.com/",
-              "--registration-token", "YCze5-cHfDUbiCTDvdmN",
+              "--registration-token", "vWUyfZRVTWYZ6whidzat",
               "--executor", "docker",
               "--docker-image", "alpine:latest",
               "--description", "docker-runner-lab",
@@ -33,7 +33,11 @@ services:
 
   setting-runner-config:
     image: busybox:latest
-    command: sed -i -e 's|    volumes =.*|    volumes = ["/cache", "/var/run/docker.sock:/run/docker.sock"]|g' -e '/^    volumes/a\    network_mode = "host"' /etc/gitlab-runner/config.toml
+    entrypoint: ["/bin/sh", "-c"]
+    command: |
+      - "sed -i -e 's|    privileged =.*|    privileged = true|g' /etc/gitlab-runner/config.toml &&
+         sed -i -e 's|    volumes =.*|    volumes = ["/cache", "/var/run/docker.sock:/run/docker.sock"]|g' /etc/gitlab-runner/config.toml &&
+         sed -i -e '/^    volumes/a\    network_mode = "host"' /etc/gitlab-runner/config.toml"
     depends_on:
     - gitlab-runner-init
     - sleep-wait-to-setting

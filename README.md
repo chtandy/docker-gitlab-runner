@@ -19,6 +19,7 @@ docker-compose up -d
 ```
     volumes = ["/cache", "/var/run/docker.sock:/run/docker.sock"]
     network_mode = "host"
+    privileged = true
 ```
 - 完整 config.toml
 ```
