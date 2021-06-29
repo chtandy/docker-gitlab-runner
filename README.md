@@ -49,3 +49,10 @@ check_interval = 0
     network_mode = "host"
     shm_size = 0
 ```
+
+### 可能的問題
+- dind 原來的參數可能有問題
+- 解決方式
+```
+privileged = true
+```
