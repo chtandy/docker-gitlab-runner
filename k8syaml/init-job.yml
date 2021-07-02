@@ -1,0 +1,33 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: gitlab-runner-init
+  namespace: default
+spec:
+  template:
+    spec:
+      containers:
+      - name: gitlab-runner-init
+        image: gitlab/gitlab-runner:latest
+        args: ["register", "--non-interactive", 
+               "--url", "https://gitlab.com/", 
+               "--registration-token", "yJKxq1yHVHXe3US_o4fs", 
+               "--executor", "kubernetes", 
+               "--docker-image", "docker:stable", 
+               "--description", "docker-runner", 
+               "--tag-list", "beta-kubernetes", 
+               "--run-untagged","true", 
+               "--locked", "false", 
+               "--access-level", "not_protected", 
+               "--docker-privileged",
+               "--docker-volumes", "/certs/client"]              
+        volumeMounts:
+          - name: conf
+            mountPath: /etc/gitlab-runner
+      restartPolicy: Never
+      volumes:
+        - name: conf
+          persistentVolumeClaim:
+            claimName: beta-gitlab-runner
+  backoffLimit: 1
+

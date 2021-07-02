@@ -22,7 +22,7 @@ services:
     restart: "no"
     volumes:
       - ./gitlab-runner:/etc/gitlab-runner
-
+  ## v14版移除以下替換的流程 
   #sleep-wait-to-setting:
   #  image: busybox:latest
   #  command: sleep 10

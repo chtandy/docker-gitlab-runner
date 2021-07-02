@@ -2,7 +2,7 @@
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: beta-gitlab-runner
+  name: gitlab-runner-conf
   namespace: default
 spec:
   accessModes:
