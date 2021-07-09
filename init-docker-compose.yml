@@ -12,7 +12,7 @@ services:
     command: ["register",
               "--non-interactive",
               "--url", "https://gitlab.com/",
-              "--registration-token", "vWUyfZRVTWYZ6whidzat",
+              "--registration-token", "7nzP-yDfJzubeEhUVvSz",
               "--executor", "docker",
               "--docker-image", "docker:stable",
               "--description", "docker-runner-lab",
